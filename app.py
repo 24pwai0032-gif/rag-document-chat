@@ -253,8 +253,8 @@ def process_uploaded_files(files, progress=gr.Progress()):
         return f"❌ Error processing files: {str(e)}"
 
 
-def chat_interface(message: str, history: List[List[str]]) -> str:
-    """Process chat messages."""
+def chat_interface(message: str, history: List) -> str:
+    """Process chat messages - Updated for Gradio 6.5.1"""
     global rag_system
     
     if rag_system is None:
@@ -317,16 +317,17 @@ def create_interface():
                 """)
             
             with gr.Column(scale=2):
+                # Updated ChatInterface for Gradio 6.5.1
                 chatbot = gr.ChatInterface(
                     fn=chat_interface,
+                    type="messages",  # Required in Gradio 6+
                     title="💬 Chat with Your Documents",
                     examples=[
                         "What are the main topics covered?",
                         "Can you provide a summary?",
                         "What are the key findings?",
                         "What recommendations are mentioned?"
-                    ],
-                    theme=gr.themes.Soft()
+                    ]
                 )
         
         # Event handlers
